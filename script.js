@@ -5,7 +5,7 @@ var carsWaiting = [];
 var parkingLot = [];
 var carsGone = [];
 
-function CarInfo() {
+function carInfo() {
 	this.make = makeName();
 	this.plate = plateID();
 	this.hex = hexID();
@@ -13,13 +13,13 @@ function CarInfo() {
 
 	this.park = function(car){
 		console.log(car);
-		parkinglot.push(car);
+		parkingLot.push(car);
 	}
 }
 
 function carFactory(){
-	for (var i = carsTotal; i >= 0; i++) {
-		var car = new CarInfo();
+	for (var i = 0; i < 100; i++) {
+		var car = new carInfo();
 		carsWaiting.push(car);
 	}
 	console.log(carsWaiting)
@@ -32,7 +32,7 @@ function makeName(){
 }
 
 function plateID(){
-	var plate = "";
+	var plate = "1234567";
 	var id = '0123456789';
 	for (var i = 0; i <= 6; i++) {
 		plate = id.charAt(Math.floor(Math.random() * 36))
@@ -61,9 +61,9 @@ function timer() {
 // }
 
 function Valet(){
-	// TODO: check if parkinglot length is less than max spaces 
+	// TODO: check if parkingLot length is less than max spaces 
 	if (parkingLot.length <= MAX_SPACES) {
-		for (var i = 0; i <= MAX_SPACES; i++) {
+		for (var i = 0; i < MAX_SPACES; i++) {
 			var car = carsWaiting.pop();
 			car.park(car);
 		}
@@ -71,7 +71,7 @@ function Valet(){
 	// TODO: loop until max spaces is hit
 	// TODO: pop a car off of the cars waiting array and set to a variable
 	// TODO: call park function passing car through 
+console.log(carsWaiting);
 }
 
 carFactory();
-console.log(carsWaiting);
