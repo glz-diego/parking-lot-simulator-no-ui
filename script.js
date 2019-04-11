@@ -1,14 +1,30 @@
-var spaces = 10;
-var carsTotal = 100;
-var carsGone = 0;
+var MAX_SPACES = 10;
+const carsTotal = 5;
+
+var carsWaiting = [];
+var parkingLot = [];
+var carsGone = [];
 
 function CarInfo() {
 	this.make = makeName();
 	this.plate = plateID();
 	this.hex = hexID();
 	this.timerId = timer();
+
+	this.park = function(car){
+		console.log(car);
+		parkinglot.push(car);
+	}
 }
 
+function carFactory(){
+	for (var i = carsTotal; i >= 0; i++) {
+		var car = new CarInfo();
+		carsWaiting.push(car);
+	}
+	console.log(carsWaiting)
+	return carsWaiting;
+}
 
 function makeName(){
 	var brand = ["Ford", "Mustang", "Nissan", "Jeep", "Toyota", "Honda", "Porsche", "Volvo", "Subaru", "Chevrolet"];
@@ -17,9 +33,9 @@ function makeName(){
 
 function plateID(){
 	var plate = "";
-	var id = 'qwertyuiopasdfghjklzxcvbnm0123456789';
+	var id = '0123456789';
 	for (var i = 0; i <= 6; i++) {
-		plate += id.charAt(Math.floor(Math.random() * 36))
+		plate = id.charAt(Math.floor(Math.random() * 36))
 	}
 	return plate;
 }
@@ -36,41 +52,26 @@ function hexID(){
 function timer() {
 	var possibleSec = '012345';
 	var timerTime = possibleSec.charAt(Math.floor(Math.random() * 5000));
-	var timerId = timeOut(timerTime, );
-	return timerId;
+	// var timerId = timeOut(timerTime, );
+	return timerTime;
 }
 
-function clearInterval() {
-	clearInterval(timerId);
-}
+// function clearInterval() {
+// 	clearInterval(timerId);
+// }
 
-function park(){
-	var carsWaiting = carsTotal;
-	console.log("Spaces left: " + spaces);
-	// console.log("Cars Waiting: " + carsWaiting);
-	var carParked = "";
-	var carsParked = 0;
-	console.log("Cars Parked: " + carsParked);
-	while(spaces != 0){
-		for(spaces = 10; spaces != 0; spaces--){
-			makeName();
-			plateID();
-			hexID();
-
-			carsWaiting--;
-
-			// carParked = "Car Parked: " + make + "; Plate ID: " + plate + "; Color: #" + hex + ";";
-			// console.log(carParked);
-
-			console.log(carInfo());
-
-			console.log("Cars Waiting: " + carsWaiting);
-
-			carsParked++;
-
+function Valet(){
+	// TODO: check if parkinglot length is less than max spaces 
+	if (parkingLot.length <= MAX_SPACES) {
+		for (var i = 0; i <= MAX_SPACES; i++) {
+			var car = carsWaiting.pop();
+			car.park(car);
 		}
-
-		// console.log("Spaces left: " + spaces);
-		// console.log("Cars Parked: " + carsParked);
 	}
+	// TODO: loop until max spaces is hit
+	// TODO: pop a car off of the cars waiting array and set to a variable
+	// TODO: call park function passing car through 
 }
+
+carFactory();
+console.log(carsWaiting);
