@@ -1,5 +1,5 @@
 var MAX_SPACES = 10;
-const carsTotal = 5;
+const carsTotal = 100;
 
 var carsWaiting = [];
 var parkingLot = [];
@@ -9,7 +9,7 @@ function carInfo() {
 	this.make = makeName();
 	this.plate = plateID();
 	this.hex = hexID();
-	this.timerId = timer();
+	// this.timerTime = timer();
 
 	this.park = function(car){
 		console.log(car);
@@ -22,7 +22,7 @@ function carFactory(){
 		var car = new carInfo();
 		carsWaiting.push(car);
 	}
-	console.log(carsWaiting)
+	// console.log(carsWaiting)
 	return carsWaiting;
 }
 
@@ -32,10 +32,10 @@ function makeName(){
 }
 
 function plateID(){
-	var plate = "1234567";
-	var id = '0123456789';
+	var plate = "";
+	var possibleId = "0123456789qwertyuiopasdfghjklzxcvbnm";
 	for (var i = 0; i <= 6; i++) {
-		plate = id.charAt(Math.floor(Math.random() * 36))
+		plate += possibleId.charAt(Math.floor(Math.random() * 36));
 	}
 	return plate;
 }
@@ -49,11 +49,19 @@ function hexID(){
 	return hex;
 }
 
-function timer() {
-	var possibleSec = '012345';
-	var timerTime = possibleSec.charAt(Math.floor(Math.random() * 5000));
-	// var timerId = timeOut(timerTime, );
-	return timerTime;
+// function timer() {
+// 	var possibleSec = '012345';
+// 	var timerNum = possibleSec.charAt(Math.floor(Math.random() * 5000));
+// 	var timerTime = timeOut(timerNum, function(){
+
+// 	});
+// 	return timerNum;
+// }
+
+function popCar(){
+	var car = carsWaiting.pop();
+	car.park(car);
+	console.log(carsWaiting);
 }
 
 // function clearInterval() {
