@@ -2,12 +2,10 @@ var carsWaiting = [];
 var parkingLot = [];
 var carsGone = [];
 
-const carsTotal = 20;
+const carsTotal = 100;
 var MAX_SPACES = 10;
 
-var spacesOpen = MAX_SPACES - parkingLot.length;
-
-// var interval = setInterval(function(){Valet()}, 1000);
+var interval = setInterval(function(){Valet()}, 1000);
 
 
 function carInfo() {
@@ -17,15 +15,39 @@ function carInfo() {
 	this.timerTime = timer();
 
 	this.park = function(car){
-		console.log("parking car", car);
+		//console.log("parking car", car);
+		// need to remove this car from the waiting cars array
 		parkingLot.push(car);
 		setTimeout(function(){ car.leave(car) }, car.timerTime);
 	}
 
 	this.leave = function(car){
-		console.log("leave", car);
+		console.log(parkingLot.length);
+
+		//console.log("leave");
+
+		//console.log(car, 'this is the car')
+
+		// find the car in the parking lot
+
+		let carPosition;
+
+		const carInParkingLot = parkingLot.filter((carInParkingLot, index) => {
+		  if (carInParkingLot.hex === car.hex) {
+		  	carPosition = index;
+
+		  	return carInParkingLot;
+		  }; 
+		})
+
+		parkingLot.splice(carPosition,1);
+
+		//console.log(parkingLot.length);
+		// slice or splice the car out of the parking lot based on the index of the cars
+
 		// TODO: find cars position hint look up array.map and indexOf()
-		// parkingLot.pop(carPosition);
+		//parkingLot.pop(carPosition);
+
 	}
 }
 
@@ -68,7 +90,6 @@ function timer() {
 function popCar(){
 	var car = carsWaiting.pop();
 	car.park(car);
-	console.log(carsWaiting);
 }
 
 // function clearInterval() {
@@ -77,16 +98,35 @@ function popCar(){
 
 function Valet(){
 	console.log("Calling the Valet!")
+	let spacesOpen = MAX_SPACES - parkingLot.length;
 
-	if(carsWaiting.length !== 0){
+	// Needs to check for open spaces
+	// move a car into each open space
+
+	console.log(carsWaiting)
+	if(carsWaiting.length !== 0 && parkingLot.length !== MAX_SPACES){
 		console.log("cars are waiting!", spacesOpen)
 		for (var i = 0; i < spacesOpen; i++) {
 			var car = carsWaiting.pop();
 			car.park(car);
 		}
-	} else {
-		clearInterval(interval)
 	}
+
+
+
+
+	if (carsWaiting.length === 0) {
+		// stop parking
+		clearInterval(interval)
+		// give info on current state
+		console.log('All Cars Parked')
+		console.log(carsWaiting.length)
+		console.log(parkingLot)
+	}
+
+
+	//console.log(parkingLot.length, 'cars in parkingLot')
+	//console.log(carsWaiting.length, 'car waiting')
 }
 console.log("carsWaiting.length", carsWaiting.length);
 
